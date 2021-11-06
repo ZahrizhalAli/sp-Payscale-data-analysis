@@ -38,9 +38,15 @@ py_scale = data.text
 
 soup = BeautifulSoup(py_scale, 'html.parser')
 
+columns = soup.find_all('th')
+all_column = [c.text for c in columns]
+
 table = soup.find_all('tr', class_="data-table__row")
 
 my_list = []
+
 my_list.extend([[clean_row(row.text) for row in body.find_all('td')] for body in soup.find_all('tr')])
 
-print(my_list)
+df = pd.DataFrame(data=my_list, columns=all_column)
+# df.to_csv('pay_scale_data.csv', index=False)
+
